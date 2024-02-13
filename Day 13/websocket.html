@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Example</title>
+</head>
+<body>
+  <h1>WebSocket Chat Day</h1>
+  <input type="text" id="messageInput" placeholder="Type a message...">
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const socket = new WebSocket(`ws://${window.location.host}/websocket`);
+
+    socket.addEventListener('open', (event) => {
+      console.log('WebSocket connection opened');
+    });
+
+    socket.addEventListener('message', (event) => {
+      console.log(`Received message from server: ${event.data}`);
+    });
+
+    socket.addEventListener('close', (event) => {
+      console.log('WebSocket connection closed');
+    });
+
+    function sendMessage() {
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value;
+      if (message) {
+        socket.send(message);
+        messageInput.value = '';
+      }
+    }
+  </script>
+</body>
+</html>
